@@ -76,41 +76,54 @@
 // })();
 
 (function () {
-  function initChatWidget(config) {
-    // Create floating button
+
+  function initChatWidget(config = {}) {
+    console.log("Chatbox initialized ✅");
+
+    // Prevent multiple instances
+    if (document.getElementById("chat-widget-button")) return;
+
+    // 🔵 Floating button
     const button = document.createElement("div");
+    button.id = "chat-widget-button";
     button.innerHTML = "💬";
-    button.style.position = "fixed";
-    button.style.bottom = "20px";
-    button.style.right = "20px";
-    button.style.width = "60px";
-    button.style.height = "60px";
-    button.style.background = "#007bff";
-    button.style.color = "white";
-    button.style.borderRadius = "50%";
-    button.style.display = "flex";
-    button.style.alignItems = "center";
-    button.style.justifyContent = "center";
-    button.style.cursor = "pointer";
-    button.style.fontSize = "24px";
-    button.style.zIndex = "9999";
+
+    Object.assign(button.style, {
+      position: "fixed",
+      bottom: "20px",
+      right: "20px",
+      width: "60px",
+      height: "60px",
+      background: "#007bff",
+      color: "white",
+      borderRadius: "50%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      fontSize: "24px",
+      zIndex: "9999"
+    });
 
     document.body.appendChild(button);
 
-    // Create chatbox
+    // 🔵 Chatbox
     const chatbox = document.createElement("div");
-    chatbox.style.position = "fixed";
-    chatbox.style.bottom = "90px";
-    chatbox.style.right = "20px";
-    chatbox.style.width = "300px";
-    chatbox.style.height = "400px";
-    chatbox.style.background = "white";
-    chatbox.style.border = "1px solid #ccc";
-    chatbox.style.borderRadius = "10px";
-    chatbox.style.display = "none";
-    chatbox.style.flexDirection = "column";
-    chatbox.style.zIndex = "9999";
-    chatbox.style.fontFamily = "sans-serif";
+
+    Object.assign(chatbox.style, {
+      position: "fixed",
+      bottom: "90px",
+      right: "20px",
+      width: "300px",
+      height: "400px",
+      background: "white",
+      border: "1px solid #ccc",
+      borderRadius: "10px",
+      display: "none",
+      flexDirection: "column",
+      zIndex: "9999",
+      fontFamily: "sans-serif"
+    });
 
     chatbox.innerHTML = `
       <div style="background:#007bff;color:white;padding:10px;border-radius:10px 10px 0 0;">
@@ -127,7 +140,7 @@
 
     let isOpen = false;
 
-    // Toggle open/close
+    // 🔁 Toggle chatbox
     button.onclick = () => {
       isOpen = !isOpen;
       chatbox.style.display = isOpen ? "flex" : "none";
@@ -146,7 +159,7 @@
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
-    // Demo AI logic
+    // 🤖 Demo AI
     function fakeAI(text) {
       const t = text.toLowerCase();
 
@@ -170,10 +183,13 @@
     }
 
     sendBtn.onclick = sendMessage;
+
     input.addEventListener("keypress", (e) => {
       if (e.key === "Enter") sendMessage();
     });
   }
 
+  // expose globally
   window.initChatWidget = initChatWidget;
+
 })();
